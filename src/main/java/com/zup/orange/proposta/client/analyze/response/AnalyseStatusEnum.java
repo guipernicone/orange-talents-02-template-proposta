@@ -1,4 +1,4 @@
-package com.zup.orange.proposta.client.AnalyzeClient.response;
+package com.zup.orange.proposta.client.analyze.response;
 
 import com.zup.orange.proposta.entity.proposal.ProposalStatusEnum;
 

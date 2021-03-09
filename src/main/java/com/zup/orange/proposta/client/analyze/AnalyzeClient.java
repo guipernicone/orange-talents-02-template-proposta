@@ -1,7 +1,7 @@
-package com.zup.orange.proposta.client.AnalyzeClient;
+package com.zup.orange.proposta.client.analyze;
 
-import com.zup.orange.proposta.client.AnalyzeClient.request.AnalyzeRequest;
-import com.zup.orange.proposta.client.AnalyzeClient.response.AnalyzeResponse;
+import com.zup.orange.proposta.client.analyze.request.AnalyzeRequest;
+import com.zup.orange.proposta.client.analyze.response.AnalyzeResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

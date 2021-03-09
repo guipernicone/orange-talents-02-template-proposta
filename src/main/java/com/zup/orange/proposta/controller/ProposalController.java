@@ -1,11 +1,13 @@
 package com.zup.orange.proposta.controller;
 
-import com.zup.orange.proposta.client.AnalyzeClient.AnalyzeClient;
-import com.zup.orange.proposta.client.AnalyzeClient.request.AnalyzeRequest;
-import com.zup.orange.proposta.client.AnalyzeClient.response.AnalyzeResponse;
+import com.zup.orange.proposta.client.analyze.AnalyzeClient;
+import com.zup.orange.proposta.client.analyze.request.AnalyzeRequest;
+import com.zup.orange.proposta.client.analyze.response.AnalyseStatusEnum;
+import com.zup.orange.proposta.client.analyze.response.AnalyzeResponse;
 import com.zup.orange.proposta.entity.proposal.Proposal;
 import com.zup.orange.proposta.entity.proposal.request.CreateProposalRequest;
 import com.zup.orange.proposta.repository.ProposalRepository;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,10 +41,17 @@ public class ProposalController {
         }
         proposalRepository.save(proposal);
 
-        AnalyzeResponse response = analyzeClient.analyse(new AnalyzeRequest(proposal));
-        proposal.updateStatus(response);
+        try{
+            AnalyzeResponse response = analyzeClient.analyse(new AnalyzeRequest(proposal));
+            proposal.updateStatus(response);
+            proposalRepository.save(proposal);
+        }
+        catch(FeignException e){
+            AnalyzeResponse response = new AnalyzeResponse(null, null, AnalyseStatusEnum.COM_RESTRICAO, null);
+            proposal.updateStatus(response);
+            proposalRepository.save(proposal);
 
-        proposalRepository.save(proposal);
+        }
 
         URI uri = uriComponentsBuilder.path("/{id}").buildAndExpand(proposal.getId()).toUri();
         return ResponseEntity.created(uri).build();

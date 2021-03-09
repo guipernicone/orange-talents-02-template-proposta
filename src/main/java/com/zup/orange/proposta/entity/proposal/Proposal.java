@@ -1,8 +1,7 @@
 package com.zup.orange.proposta.entity.proposal;
 
-import com.zup.orange.proposta.client.AnalyzeClient.response.AnalyseStatusEnum;
-import com.zup.orange.proposta.client.AnalyzeClient.response.AnalyzeResponse;
-import com.zup.orange.proposta.validation.CPFOrCNPJ;
+import com.zup.orange.proposta.client.analyze.response.AnalyzeResponse;
+import com.zup.orange.proposta.entity.card.Card;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -33,6 +32,8 @@ public class Proposal {
     private Address address;
     @Enumerated(EnumType.STRING)
     private ProposalStatusEnum status;
+    @OneToOne(mappedBy = "proposal")
+    private Card card;
 
     @Deprecated
     public Proposal() {
@@ -78,6 +79,10 @@ public class Proposal {
 
     public ProposalStatusEnum getStatus() {
         return status;
+    }
+
+    public Card getCard() {
+        return card;
     }
 
     public void updateStatus(AnalyzeResponse response){

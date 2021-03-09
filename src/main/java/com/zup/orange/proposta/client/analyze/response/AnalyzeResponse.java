@@ -1,4 +1,4 @@
-package com.zup.orange.proposta.client.AnalyzeClient.response;
+package com.zup.orange.proposta.client.analyze.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,6 +13,17 @@ public class AnalyzeResponse {
     private AnalyseStatusEnum result;
     @JsonProperty("idProposta")
     private String id;
+
+    @Deprecated
+    public AnalyzeResponse() {
+    }
+
+    public AnalyzeResponse(String document, String name, AnalyseStatusEnum result, String id) {
+        this.document = document;
+        this.name = name;
+        this.result = result;
+        this.id = id;
+    }
 
     public String getDocument() {
         return document;

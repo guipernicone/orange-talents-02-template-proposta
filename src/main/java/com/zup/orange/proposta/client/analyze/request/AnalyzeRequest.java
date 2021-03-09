@@ -1,4 +1,4 @@
-package com.zup.orange.proposta.client.AnalyzeClient.request;
+package com.zup.orange.proposta.client.analyze.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zup.orange.proposta.entity.proposal.Proposal;
