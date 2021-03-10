@@ -32,9 +32,12 @@ public class GetCreditCardForApprovedProposal {
                     String.valueOf(proposal.getId())
             );
             AssociateCardResponse cardResponse = accountClient.associateCard(cardRequest);
-            Card card = cardResponse.toModel(proposal);
-            proposal.updateCard(card);
-            proposalRepository.save(proposal);
+
+            if (cardResponse != null){
+                Card card = cardResponse.toModel(proposal);
+                proposal.updateCard(card);
+                proposalRepository.save(proposal);
+            }
         });
     }
 }

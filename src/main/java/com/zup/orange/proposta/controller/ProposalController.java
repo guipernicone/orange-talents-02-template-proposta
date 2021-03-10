@@ -41,21 +41,14 @@ public class ProposalController {
         }
         proposalRepository.save(proposal);
 
-        try{
-            AnalyzeResponse response = analyzeClient.analyse(new AnalyzeRequest(proposal));
-            proposal.updateStatus(response);
-            proposalRepository.save(proposal);
-        }
-        catch(FeignException e){
-            AnalyzeResponse response = new AnalyzeResponse(null, null, AnalyseStatusEnum.COM_RESTRICAO, null);
-            proposal.updateStatus(response);
-            proposalRepository.save(proposal);
-
-        }
+        AnalyzeResponse response = analyzeClient.analyse(new AnalyzeRequest(proposal));
+        proposal.updateStatus(response);
+        proposalRepository.save(proposal);
 
         URI uri = uriComponentsBuilder.path("/{id}").buildAndExpand(proposal.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
 
 
 }

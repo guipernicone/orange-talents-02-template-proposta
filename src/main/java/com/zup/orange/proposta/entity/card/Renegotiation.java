@@ -25,8 +25,6 @@ public class Renegotiation {
     private BigDecimal value;
     @NotNull(message = "{NotNull}")
     private LocalDateTime creationDate;
-    @OneToOne
-    private Card card;
 
     @Deprecated
     public Renegotiation() {
@@ -62,9 +60,5 @@ public class Renegotiation {
 
     public LocalDateTime getCreationDate() {
         return creationDate;
-    }
-
-    public Card getCard() {
-        return card;
     }
 }

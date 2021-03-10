@@ -6,34 +6,31 @@ import javax.validation.constraints.NotBlank;
 
 public class AssociateCardRequest {
     @NotBlank(message = "{NotBlank}")
-    @JsonProperty("document")
-    private String document;
+    private String documento;
     @NotBlank(message = "{NotBlank}")
-    @JsonProperty("nome")
-    private String name;
+    private String nome;
     @NotBlank(message = "{NotBlank}")
-    @JsonProperty("proposalId")
-    private String proposalId;
+    private String idProposta;
 
     public AssociateCardRequest(
-            @NotBlank(message = "{NotBlank}") String document,
-            @NotBlank(message = "{NotBlank}") String name,
-            @NotBlank(message = "{NotBlank}") String proposalId
+            @NotBlank(message = "{NotBlank}") String documento,
+            @NotBlank(message = "{NotBlank}") String nome,
+            @NotBlank(message = "{NotBlank}") String idProposta
     ) {
-        this.document = document;
-        this.name = name;
-        this.proposalId = proposalId;
+        this.documento = documento;
+        this.nome = nome;
+        this.idProposta = idProposta;
     }
 
-    public String getDocument() {
-        return document;
+    public String getDocumento() {
+        return documento;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public String getProposalId() {
-        return proposalId;
+    public String getIdProposta() {
+        return idProposta;
     }
 }

@@ -25,9 +25,6 @@ public class DueDate {
     @NotNull(message = "{NotNull}")
     private LocalDateTime creationDate;
 
-    @OneToOne
-    private Card card;
-
     @Deprecated
     public DueDate() {
     }
@@ -58,18 +55,4 @@ public class DueDate {
         return creationDate;
     }
 
-    public Card getCard() {
-        return card;
-    }
-
-    @Override
-    public String toString() {
-        return "DueDate{" +
-                "id=" + id +
-                ", dueId='" + dueId + '\'' +
-                ", day=" + day +
-                ", creationDate=" + creationDate +
-                ", card=" + card +
-                '}';
-    }
 }
