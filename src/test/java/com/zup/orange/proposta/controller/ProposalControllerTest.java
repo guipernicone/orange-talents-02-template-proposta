@@ -2,6 +2,7 @@ package com.zup.orange.proposta.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zup.orange.proposta.entity.proposal.Proposal;
 import com.zup.orange.proposta.entity.proposal.request.AddressRequest;
 import com.zup.orange.proposta.entity.proposal.request.CreateProposalRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,5 +81,29 @@ public class ProposalControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(this.proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+
+    @Test
+    @Transactional
+    public void testGetProposal() throws Exception {
+        Proposal proposal = this.proposalRequest.toModel();
+        entityManager.persist(proposal);
+
+        this.mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/proposal/{id}", proposal.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @Transactional
+    public void testGetProposalWithInvalidId() throws Exception {
+        this.mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/proposal/99")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }
