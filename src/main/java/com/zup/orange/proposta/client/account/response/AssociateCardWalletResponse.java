@@ -38,6 +38,6 @@ public class AssociateCardWalletResponse {
     }
 
     public Wallet toModel(){
-        return new Wallet(this.email, this.associadaEm, this.emmissor);
+        return new Wallet(this.id, this.email, this.associadaEm, this.emmissor);
     }
 }

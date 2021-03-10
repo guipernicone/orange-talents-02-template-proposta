@@ -40,6 +40,6 @@ public class AssociateCardRenegotiationResponse {
     }
 
     public Renegotiation toModel(){
-        return new Renegotiation(this.quantidade, this.valor, this.dataDeCriacao);
+        return new Renegotiation(this.id, this.quantidade, this.valor, this.dataDeCriacao);
     }
 }

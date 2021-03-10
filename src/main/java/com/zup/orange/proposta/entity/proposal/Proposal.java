@@ -32,7 +32,7 @@ public class Proposal {
     private Address address;
     @Enumerated(EnumType.STRING)
     private ProposalStatusEnum status;
-    @OneToOne(mappedBy = "proposal")
+    @OneToOne(mappedBy = "proposal", cascade = CascadeType.ALL)
     private Card card;
 
     @Deprecated
@@ -87,5 +87,9 @@ public class Proposal {
 
     public void updateStatus(AnalyzeResponse response){
         this.status = response.getResult().getValue();
+    }
+
+    public void updateCard(Card card){
+        this.card = card;
     }
 }

@@ -32,6 +32,6 @@ public class AssociateCardInstallmentResponse {
     }
 
     public Installment toModel(){
-        return new Installment(this.quantidade, this.valor);
+        return new Installment(this.id, this.quantidade, this.valor);
     }
 }

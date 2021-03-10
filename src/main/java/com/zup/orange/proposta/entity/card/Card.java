@@ -31,32 +31,26 @@ public class Card {
     @Positive
     private BigDecimal limitValue;
 
-    @NotNull(message = "{NotNull}")
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade=CascadeType.MERGE)
     private List<Blocked> blockeds;
 
-    @NotNull(message = "{NotNull}")
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade=CascadeType.MERGE)
     private List<Warning> warnings;
 
-    @NotNull(message = "{NotNull}")
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade=CascadeType.MERGE)
     private List<Wallet> wallets;
 
-    @NotNull(message = "{NotNull}")
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade=CascadeType.MERGE)
     private List<Installment> installments;
 
-    @NotNull(message = "{NotNull}")
-    @OneToMany(mappedBy = "card")
-    private List<Renegotiation> renegotiations;
+    @OneToOne(cascade=CascadeType.MERGE)
+    private Renegotiation renegotiations;
+
+    @OneToOne(cascade=CascadeType.MERGE)
+    private DueDate dueDates;
 
     @NotNull(message = "{NotNull}")
-    @OneToMany(mappedBy = "card")
-    private List<DueDate> dueDates;
-
-    @NotNull(message = "{NotNull}")
-    @OneToOne
+    @OneToOne(cascade=CascadeType.MERGE)
     private Proposal proposal;
 
     @Deprecated
@@ -64,17 +58,17 @@ public class Card {
     }
 
     public Card(
-            @NotBlank(message = "{NotBlank}") String cardNumber,
-            @NotNull(message = "{NotNull}") LocalDateTime issuedIn,
-            @NotBlank(message = "{NotBlank}") String holder,
-            @NotNull(message = "{NotNull}") List<Blocked> blockeds,
-            @NotNull(message = "{NotNull}") List<Warning> warnings,
-            @NotNull(message = "{NotNull}") List<Wallet> wallets,
-            @NotNull(message = "{NotNull}") List<Installment> installments,
-            @Positive BigDecimal limit,
-            @NotNull(message = "{NotNull}") List<Renegotiation> renegotiations,
-            @NotNull(message = "{NotNull}") List<DueDate> dueDates,
-            @NotNull(message = "{NotNull}") Proposal proposal
+            String cardNumber,
+            LocalDateTime issuedIn,
+            String holder,
+            List<Blocked> blockeds,
+            List<Warning> warnings,
+            List<Wallet> wallets,
+            List<Installment> installments,
+            BigDecimal limit,
+            Renegotiation renegotiations,
+            DueDate dueDates,
+            Proposal proposal
     ) {
         this.cardNumber = cardNumber;
         this.issuedIn = issuedIn;
@@ -124,11 +118,12 @@ public class Card {
     public BigDecimal getLimitValue() {
         return limitValue;
     }
-    public List<Renegotiation> getRenegotiations() {
+
+    public Renegotiation getRenegotiations() {
         return renegotiations;
     }
 
-    public List<DueDate> getDueDates() {
+    public DueDate getDueDates() {
         return dueDates;
     }
 

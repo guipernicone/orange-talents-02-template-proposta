@@ -14,6 +14,8 @@ public class Installment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank
+    private String installmentId;
     @Positive
     private int quantity;
     @Positive
@@ -26,15 +28,21 @@ public class Installment {
     }
 
     public Installment(
+            @NotBlank String installmentId,
             @Positive int quantity,
             @Positive BigDecimal value
     ) {
+        this.installmentId = installmentId;
         this.quantity = quantity;
         this.value = value;
     }
 
     public long getId() {
         return id;
+    }
+
+    public String getInstallmentId() {
+        return installmentId;
     }
 
     public int getQuantity() {

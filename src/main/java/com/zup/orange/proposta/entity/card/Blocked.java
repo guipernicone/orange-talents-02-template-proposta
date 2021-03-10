@@ -14,6 +14,8 @@ public class Blocked {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank(message = "{NotBlank}")
+    private String blockedId;
     @NotNull(message = "{NotNull}")
     private LocalDateTime blockedIn;
     @NotBlank(message = "{NotBlank}")
@@ -28,10 +30,12 @@ public class Blocked {
     }
 
     public Blocked(
+            @NotBlank(message = "{NotBlank}") String blockedId,
             @NotNull(message = "{NotNull}") LocalDateTime blockedIn,
             @NotBlank(message = "{NotBlank}") String responsibleSystem,
             @NotBlank(message = "{NotBlank}") boolean active
     ) {
+        this.blockedId = blockedId;
         this.blockedIn = blockedIn;
         this.responsibleSystem = responsibleSystem;
         this.active = active;
@@ -39,6 +43,10 @@ public class Blocked {
 
     public long getId() {
         return id;
+    }
+
+    public String getBlockedId() {
+        return blockedId;
     }
 
     public LocalDateTime getBlockedIn() {

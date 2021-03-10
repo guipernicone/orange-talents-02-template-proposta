@@ -25,27 +25,27 @@ public class AssociateCardResponse {
     @NotBlank(message = "{NotBlank}")
     private String titular;
 
-    @NotNull(message = "{NotNull}")
+//    @NotNull(message = "{NotNull}")
     private List<AssociateCardBlockedResponse> bloqueios;
 
-    @NotNull(message = "{NotNull}")
+//    @NotNull(message = "{NotNull}")
     private List<AssociateCardWarningResponse> avisos;
 
-    @NotNull(message = "{NotNull}")
+//    @NotNull(message = "{NotNull}")
     private List<AssociateCardWalletResponse> carteiras;
 
-    @NotNull(message = "{NotNull}")
+//    @NotNull(message = "{NotNull}")
     private List<AssociateCardInstallmentResponse>  parcelas;
 
     @NotNull(message = "{NotNull}")
     @Positive
     private BigDecimal limite;
 
-    @NotNull(message = "{NotNull}")
-    private List<AssociateCardRenegotiationResponse> renegociacao;
+//    @NotNull(message = "{NotNull}")
+    private AssociateCardRenegotiationResponse renegociacao;
 
-    @NotNull(message = "{NotNull}")
-    private List<AssociateCardDueDateResponse> vencimento;
+//    @NotNull(message = "{NotNull}")
+    private AssociateCardDueDateResponse vencimento;
 
     @NotBlank(message = "{NotBlank}")
     private String idProposta;
@@ -82,11 +82,11 @@ public class AssociateCardResponse {
         return limite;
     }
 
-    public List<AssociateCardRenegotiationResponse> getRenegociacao() {
+    public AssociateCardRenegotiationResponse getRenegociacao() {
         return renegociacao;
     }
 
-    public List<AssociateCardDueDateResponse> getVencimento() {
+    public AssociateCardDueDateResponse getVencimento() {
         return vencimento;
     }
 
@@ -94,10 +94,9 @@ public class AssociateCardResponse {
         return idProposta;
     }
 
-    public Card toModel(EntityManager entityManager){
-        Proposal proposal = entityManager.find(Proposal.class, this.idProposta);
+    public Card toModel(Proposal proposal){
 
-        Assert.notNull(proposal, "Invalid proposal ID");
+        Renegotiation renegotiation = this.renegociacao != null ? renegociacao.toModel() : null;
 
         return new Card(
                 this.id,
@@ -105,29 +104,23 @@ public class AssociateCardResponse {
                 this.titular,
                 this.bloqueios
                         .stream()
-                        .map(block -> new Blocked(block.getBloqueadoEm(), block.getSistemaResponsavel(), block.getAtivo()))
+                        .map(AssociateCardBlockedResponse::toModel)
                         .collect(Collectors.toList()),
                 this.avisos
                         .stream()
-                        .map(warning -> new Warning(warning.getValidoAte(), warning.getDestino()))
+                        .map(AssociateCardWarningResponse::toModel)
                         .collect(Collectors.toList()),
                 this.carteiras
-                    .stream()
-                    .map(carteira -> new Wallet(carteira.getEmail(), carteira.getAssociadaEm(), carteira.getEmmissor()))
-                    .collect(Collectors.toList()),
+                        .stream()
+                        .map(AssociateCardWalletResponse::toModel)
+                        .collect(Collectors.toList()),
                 this.parcelas
-                    .stream()
-                    .map(parcela -> new Installment(parcela.getQuantidade(), parcela.getValor()))
-                    .collect(Collectors.toList()),
+                        .stream()
+                        .map(AssociateCardInstallmentResponse::toModel)
+                        .collect(Collectors.toList()),
                 this.limite,
-                this.renegociacao
-                    .stream()
-                    .map(renegociacao -> new Renegotiation(renegociacao.getQuantidade(), renegociacao.getValor(), renegociacao.getDataDeCriacao()))
-                    .collect(Collectors.toList()),
-                this.vencimento
-                    .stream()
-                    .map(vencimento -> new DueDate(vencimento.getDia(), vencimento.getDataDeCriacao()))
-                    .collect(Collectors.toList()),
+                renegotiation,
+                this.vencimento.toModel(),
                 proposal
         );
     }

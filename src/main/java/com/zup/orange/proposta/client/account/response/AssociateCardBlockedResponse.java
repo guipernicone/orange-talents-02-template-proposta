@@ -36,6 +36,6 @@ public class AssociateCardBlockedResponse {
     }
 
     public Blocked toModel(){
-        return new Blocked(this.bloqueadoEm, this. sistemaResponsavel, this.ativo);
+        return new Blocked(this.id, this.bloqueadoEm, this. sistemaResponsavel, this.ativo);
     }
 }

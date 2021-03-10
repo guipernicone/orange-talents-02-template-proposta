@@ -28,6 +28,6 @@ public class AssociateCardDueDateResponse {
     }
 
     public DueDate toModel(){
-        return new DueDate(this.dia, this.dataDeCriacao);
+        return new DueDate(this.id, this.dia, this.dataDeCriacao);
     }
 }

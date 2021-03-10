@@ -14,6 +14,8 @@ public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank
+    private String walletId;
     @Email
     private String email;
     @NotNull(message = "{NotNull}")
@@ -28,10 +30,12 @@ public class Wallet {
     }
 
     public Wallet(
+            @NotBlank String walletId,
             @Email String email,
             @NotNull(message = "{NotNull}") LocalDateTime associateIn,
             @NotBlank(message = "{NotBlank}") String issuer
     ) {
+        this.walletId = walletId;
         this.email = email;
         this.associateIn = associateIn;
         this.issuer = issuer;
@@ -39,6 +43,10 @@ public class Wallet {
 
     public long getId() {
         return id;
+    }
+
+    public String getWalletId() {
+        return walletId;
     }
 
     public String getEmail() {

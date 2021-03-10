@@ -15,13 +15,17 @@ public class Renegotiation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotBlank(message = "{NotBlank}")
+    private String renegotiationId;
+
     @Positive
     private int quantity;
     @Positive
     private BigDecimal value;
     @NotNull(message = "{NotNull}")
     private LocalDateTime creationDate;
-    @ManyToOne
+    @OneToOne
     private Card card;
 
     @Deprecated
@@ -29,9 +33,12 @@ public class Renegotiation {
     }
 
     public Renegotiation(
-            @Positive int quantity, @Positive BigDecimal value,
+            @NotBlank String renegotiationId,
+            @Positive int quantity,
+            @Positive BigDecimal value,
             @NotNull(message = "{NotNull}") LocalDateTime creationDate
     ) {
+        this.renegotiationId = renegotiationId;
         this.quantity = quantity;
         this.value = value;
         this.creationDate = creationDate;
@@ -39,6 +46,10 @@ public class Renegotiation {
 
     public long getId() {
         return id;
+    }
+
+    public String getRenegotiationId() {
+        return renegotiationId;
     }
 
     public int getQuantity() {
