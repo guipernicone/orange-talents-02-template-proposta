@@ -2,13 +2,11 @@ package com.zup.orange.proposta.controller;
 
 import com.zup.orange.proposta.client.analyze.AnalyzeClient;
 import com.zup.orange.proposta.client.analyze.request.AnalyzeRequest;
-import com.zup.orange.proposta.client.analyze.response.AnalyseStatusEnum;
 import com.zup.orange.proposta.client.analyze.response.AnalyzeResponse;
 import com.zup.orange.proposta.entity.proposal.Proposal;
 import com.zup.orange.proposta.entity.proposal.request.CreateProposalRequest;
 import com.zup.orange.proposta.entity.proposal.response.ProposalResponse;
 import com.zup.orange.proposta.repository.ProposalRepository;
-import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

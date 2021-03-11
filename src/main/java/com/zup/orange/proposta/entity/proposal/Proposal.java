@@ -23,6 +23,7 @@ public class Proposal {
     @Email
     private String email;
     @NotBlank(message = "{NotBlank}")
+    @Column(unique = true)
     private String document;
     @NotNull(message = "{NotNull}")
     @Positive
