@@ -11,6 +11,14 @@ public class BiometryCreateRequest {
     @NotBlank(message = "{NotBlank}")
     public String biometry;
 
+    @Deprecated
+    public BiometryCreateRequest() {
+    }
+
+    public BiometryCreateRequest(@NotBlank(message = "{NotBlank}") String biometry) {
+        this.biometry = biometry;
+    }
+
     public String getBiometry() {
         return biometry;
     }
