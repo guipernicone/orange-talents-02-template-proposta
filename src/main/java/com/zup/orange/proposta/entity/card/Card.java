@@ -1,6 +1,7 @@
 package com.zup.orange.proposta.entity.card;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.zup.orange.proposta.entity.biometry.Biometry;
 import com.zup.orange.proposta.entity.proposal.Proposal;
 
 import javax.persistence.*;
@@ -43,15 +44,18 @@ public class Card {
     @OneToMany(mappedBy = "card", cascade=CascadeType.MERGE)
     private List<Installment> installments;
 
-    @OneToOne(cascade=CascadeType.MERGE)
+    @OneToOne(mappedBy = "card", cascade=CascadeType.MERGE)
     private Renegotiation renegotiations;
 
-    @OneToOne(cascade=CascadeType.MERGE)
+    @OneToOne(cascade=CascadeType.PERSIST)
     private DueDate dueDates;
 
     @NotNull(message = "{NotNull}")
-    @OneToOne(cascade=CascadeType.MERGE)
+    @OneToOne
     private Proposal proposal;
+
+    @OneToMany(mappedBy = "card", cascade=CascadeType.MERGE)
+    private List<Biometry> biometry;
 
     @Deprecated
     public Card() {
@@ -129,5 +133,9 @@ public class Card {
 
     public Proposal getProposal() {
         return proposal;
+    }
+
+    public List<Biometry> getBiometry() {
+        return biometry;
     }
 }

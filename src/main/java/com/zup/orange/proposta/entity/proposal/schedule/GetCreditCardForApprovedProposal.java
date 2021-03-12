@@ -6,6 +6,7 @@ import com.zup.orange.proposta.client.account.response.AssociateCardResponse;
 import com.zup.orange.proposta.entity.card.Card;
 import com.zup.orange.proposta.entity.proposal.Proposal;
 import com.zup.orange.proposta.entity.proposal.ProposalStatusEnum;
+import com.zup.orange.proposta.repository.CardRepository;
 import com.zup.orange.proposta.repository.ProposalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,6 +18,9 @@ import java.util.List;
 public class GetCreditCardForApprovedProposal {
     @Autowired
     ProposalRepository proposalRepository;
+
+    @Autowired
+    CardRepository cardRepository;
 
     @Autowired
     AccountClient accountClient;
@@ -35,8 +39,7 @@ public class GetCreditCardForApprovedProposal {
 
             if (cardResponse != null){
                 Card card = cardResponse.toModel(proposal);
-                proposal.updateCard(card);
-                proposalRepository.save(proposal);
+                cardRepository.save(card);
             }
         });
     }

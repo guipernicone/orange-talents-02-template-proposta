@@ -21,10 +21,15 @@ public class Renegotiation {
 
     @Positive
     private int quantity;
+
     @Positive
     private BigDecimal value;
+
     @NotNull(message = "{NotNull}")
     private LocalDateTime creationDate;
+
+    @OneToOne
+    private Card card;
 
     @Deprecated
     public Renegotiation() {

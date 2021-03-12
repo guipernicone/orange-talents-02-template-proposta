@@ -33,7 +33,7 @@ public class Proposal {
     private Address address;
     @Enumerated(EnumType.STRING)
     private ProposalStatusEnum status;
-    @OneToOne(mappedBy = "proposal", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "proposal", cascade = CascadeType.MERGE)
     private Card card;
 
     @Deprecated

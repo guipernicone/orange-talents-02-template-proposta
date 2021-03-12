@@ -42,7 +42,7 @@ public class ProposalController {
         proposal.updateStatus(response);
         proposalRepository.save(proposal);
 
-        URI uri = uriComponentsBuilder.path("/{id}").buildAndExpand(proposal.getId()).toUri();
+        URI uri = uriComponentsBuilder.path("/proposal/{id}").buildAndExpand(proposal.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
@@ -56,5 +56,6 @@ public class ProposalController {
         }
         return ResponseEntity.ok(new ProposalResponse(optionalProposal.get()));
     }
+
 
 }

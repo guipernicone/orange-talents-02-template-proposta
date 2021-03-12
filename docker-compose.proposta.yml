@@ -144,7 +144,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_PASSWORD: root
-      MYSQL_DATABASE: proposal
+      MYSQL_DATABASE: proposta
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
 
   proposta:
