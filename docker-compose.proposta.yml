@@ -165,6 +165,9 @@ services:
       DB_PASSWORD: root
       ANALISE_SERVICE: http://analise
       ACCOUNT_SERVICE: http://contas
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/proposta
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/certs
+      AUTH_CLIENT_URL: http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/token
 
 volumes:
   grafana-volume:
