@@ -11,6 +11,7 @@ import com.zup.orange.proposta.repository.ProposalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class GetCreditCardForApprovedProposal {
     AccountClient accountClient;
 
     @Scheduled(fixedDelay = 60000)
+    @Transactional
     private void scheduleTask() {
         List<Proposal> proposalList = proposalRepository.findByStatusAndCardIsNull(ProposalStatusEnum.ELEGIVEL);
 
@@ -35,12 +37,10 @@ public class GetCreditCardForApprovedProposal {
                     proposal.getName(),
                     String.valueOf(proposal.getId())
             );
-            AssociateCardResponse cardResponse = accountClient.associateCard(cardRequest);
 
-            if (cardResponse != null){
-                Card card = cardResponse.toModel(proposal);
-                cardRepository.save(card);
-            }
+            AssociateCardResponse cardResponse = accountClient.associateCard(cardRequest);
+            Card card = cardResponse.toModel(proposal);
+            cardRepository.save(card);
         });
     }
 }

@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(
         value = "analysis",
-        url = "${analysis.client.url}",
-        fallback = AnalyzeClientFallBack.class
+        url = "${analysis.client.url}"
 )
 public interface AnalyzeClient {
 

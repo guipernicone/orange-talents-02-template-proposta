@@ -9,13 +9,16 @@ public class LoginRequest {
     @NotBlank
     private String password;
 
+    private String refreshToken;
+
     @Deprecated
     public LoginRequest() {
     }
 
-    public LoginRequest(String username, String password) {
+    public LoginRequest(String username, String password, String refreshToken) {
         this.username = username;
         this.password = password;
+        this.refreshToken = refreshToken;
     }
 
     public String getUsername() {
@@ -24,5 +27,9 @@ public class LoginRequest {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
     }
 }

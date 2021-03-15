@@ -1,7 +1,13 @@
 package com.zup.orange.proposta.entity.proposal;
 
+import com.zup.orange.proposta.client.analyze.AnalyzeClient;
+import com.zup.orange.proposta.client.analyze.request.AnalyzeRequest;
 import com.zup.orange.proposta.client.analyze.response.AnalyzeResponse;
 import com.zup.orange.proposta.entity.card.Card;
+import feign.FeignException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -86,8 +92,18 @@ public class Proposal {
         return card;
     }
 
-    public void updateStatus(AnalyzeResponse response){
-        this.status = response.getResult().getValue();
+    public void updateStatus(AnalyzeClient client){
+        try{
+            AnalyzeResponse response = client.analyse(new AnalyzeRequest(this));
+            this.status = response.getResult().getValue();
+        }
+        catch (FeignException e) {
+            this.status = ProposalStatusEnum.NAO_ELEGIVEL;
+        }
+        catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error happened");
+        }
+
     }
 
     public void updateCard(Card card){

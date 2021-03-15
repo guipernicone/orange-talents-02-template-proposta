@@ -7,6 +7,7 @@ import com.zup.orange.proposta.entity.proposal.Proposal;
 import com.zup.orange.proposta.entity.proposal.request.CreateProposalRequest;
 import com.zup.orange.proposta.entity.proposal.response.ProposalResponse;
 import com.zup.orange.proposta.repository.ProposalRepository;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +39,8 @@ public class ProposalController {
         }
         proposalRepository.save(proposal);
 
-        AnalyzeResponse response = analyzeClient.analyse(new AnalyzeRequest(proposal));
-        proposal.updateStatus(response);
+        proposal.updateStatus(analyzeClient);
+
         proposalRepository.save(proposal);
 
         URI uri = uriComponentsBuilder.path("/proposal/{id}").buildAndExpand(proposal.getId()).toUri();

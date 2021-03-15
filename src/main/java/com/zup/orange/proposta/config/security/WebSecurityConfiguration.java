@@ -22,6 +22,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // Entry Points authorize
                 .authorizeRequests()
+//                .anyRequest().permitAll();
                 .antMatchers("/auth").permitAll()
                 .anyRequest().authenticated()
 

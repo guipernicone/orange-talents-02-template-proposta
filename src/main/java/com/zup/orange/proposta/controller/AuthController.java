@@ -40,13 +40,18 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<?> auth(@RequestBody @Valid LoginRequest loginRequest){
         MultiValueMap<String, String> authRequest = new LinkedMultiValueMap<>();
+        if (loginRequest.getRefreshToken().isEmpty()){
+            authRequest.add("grant_type", this.grantType);
+            authRequest.add("client_secret", this.clientSecret);
+            authRequest.add("username", loginRequest.getUsername());
+            authRequest.add("password", loginRequest.getPassword());
+        }
+        else{
+            authRequest.add("grant_type", "refresh_token");
+            authRequest.add("refresh_token", loginRequest.getRefreshToken());
+        }
         authRequest.add("scope", this.scope);
-        authRequest.add("grant_type", this.grantType);
         authRequest.add("client_id", this.clientId);
-        authRequest.add("client_secret", this.clientSecret);
-        authRequest.add("username", loginRequest.getUsername());
-        authRequest.add("password", loginRequest.getPassword());
-        System.out.println(authRequest);
 
         Optional<AuthResponse> authResponseOptional = authClient.auth(authRequest);
 
