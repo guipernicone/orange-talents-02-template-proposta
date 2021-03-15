@@ -14,14 +14,14 @@ public class Blocked {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotBlank(message = "{NotBlank}")
-    private String blockedId;
+
     @NotNull(message = "{NotNull}")
     private LocalDateTime blockedIn;
+
     @NotBlank(message = "{NotBlank}")
     private String responsibleSystem;
-    @NotBlank(message = "{NotBlank}")
-    private boolean active;
+
+    private String clientIp;
     @ManyToOne
     private Card card;
 
@@ -30,23 +30,19 @@ public class Blocked {
     }
 
     public Blocked(
-            @NotBlank(message = "{NotBlank}") String blockedId,
             @NotNull(message = "{NotNull}") LocalDateTime blockedIn,
             @NotBlank(message = "{NotBlank}") String responsibleSystem,
-            @NotBlank(message = "{NotBlank}") boolean active
+            String clientIp,
+            Card card
     ) {
-        this.blockedId = blockedId;
         this.blockedIn = blockedIn;
         this.responsibleSystem = responsibleSystem;
-        this.active = active;
+        this.clientIp = clientIp;
+        this.card = card;
     }
 
     public long getId() {
         return id;
-    }
-
-    public String getBlockedId() {
-        return blockedId;
     }
 
     public LocalDateTime getBlockedIn() {
@@ -57,8 +53,8 @@ public class Blocked {
         return responsibleSystem;
     }
 
-    public boolean isActive() {
-        return active;
+    public String getClientIp() {
+        return clientIp;
     }
 
     public Card getCard() {

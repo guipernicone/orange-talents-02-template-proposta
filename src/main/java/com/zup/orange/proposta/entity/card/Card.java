@@ -1,8 +1,14 @@
 package com.zup.orange.proposta.entity.card;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.zup.orange.proposta.client.account.AccountClient;
+import com.zup.orange.proposta.client.account.request.CardBlockRequest;
+import com.zup.orange.proposta.client.account.response.CardBlockResponse;
 import com.zup.orange.proposta.entity.biometry.Biometry;
 import com.zup.orange.proposta.entity.proposal.Proposal;
+import feign.FeignException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,19 +39,22 @@ public class Card {
     @Positive
     private BigDecimal limitValue;
 
-    @OneToMany(mappedBy = "card", cascade=CascadeType.MERGE)
+    @Enumerated(EnumType.STRING)
+    private CardStatusEnum status;
+
+    @OneToMany(mappedBy = "card", cascade=CascadeType.ALL)
     private List<Blocked> blockeds;
 
-    @OneToMany(mappedBy = "card", cascade=CascadeType.MERGE)
+    @OneToMany(mappedBy = "card", cascade=CascadeType.ALL)
     private List<Warning> warnings;
 
-    @OneToMany(mappedBy = "card", cascade=CascadeType.MERGE)
+    @OneToMany(mappedBy = "card", cascade=CascadeType.ALL)
     private List<Wallet> wallets;
 
-    @OneToMany(mappedBy = "card", cascade=CascadeType.MERGE)
+    @OneToMany(mappedBy = "card", cascade=CascadeType.ALL)
     private List<Installment> installments;
 
-    @OneToOne(mappedBy = "card", cascade=CascadeType.MERGE)
+    @OneToOne(mappedBy = "card", cascade=CascadeType.ALL)
     private Renegotiation renegotiations;
 
     @OneToOne(cascade=CascadeType.PERSIST)
@@ -65,7 +75,6 @@ public class Card {
             String cardNumber,
             LocalDateTime issuedIn,
             String holder,
-            List<Blocked> blockeds,
             List<Warning> warnings,
             List<Wallet> wallets,
             List<Installment> installments,
@@ -77,7 +86,6 @@ public class Card {
         this.cardNumber = cardNumber;
         this.issuedIn = issuedIn;
         this.holder = holder;
-        this.blockeds = blockeds;
         this.warnings = warnings;
         this.wallets = wallets;
         this.installments = installments;
@@ -85,6 +93,7 @@ public class Card {
         this.renegotiations = renegotiations;
         this.dueDates = dueDates;
         this.proposal = proposal;
+        this.status = CardStatusEnum.ATIVO;
     }
 
     public long getId() {
@@ -103,6 +112,10 @@ public class Card {
         return holder;
     }
 
+    public CardStatusEnum getStatus() {
+        return status;
+    }
+
     public List<Blocked> getBlockeds() {
         return blockeds;
     }
@@ -115,7 +128,7 @@ public class Card {
         return wallets;
     }
 
-    public List<Installment> getInstallments() {
+    public List<Installment> getInstasllments() {
         return installments;
     }
 
@@ -137,5 +150,25 @@ public class Card {
 
     public List<Biometry> getBiometry() {
         return biometry;
+    }
+
+    public boolean blockCard(AccountClient client, String system){
+        try{
+            CardBlockResponse response = client.blockCard(this.cardNumber, new CardBlockRequest(system));
+
+            if (response.getResult() == CardStatusEnum.FALHA){
+                return false;
+            }
+            this.status = response.getResult();
+            return true;
+        }
+        catch (FeignException e){
+            return false;
+        }
+        catch (Exception e){
+            System.out.println(e.getCause());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error happened");
+        }
+
     }
 }

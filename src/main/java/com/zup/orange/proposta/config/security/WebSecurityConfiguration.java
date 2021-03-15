@@ -22,17 +22,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // Entry Points authorize
                 .authorizeRequests()
-//                .anyRequest().permitAll();
-                .antMatchers("/auth").permitAll()
-                .anyRequest().authenticated()
-
-                .and()
-
-                // Disable the creation of sessions
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                .and()
-                //Configure to use auth2ResourceServer
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+                .anyRequest().permitAll();
+//                .antMatchers("/auth").permitAll()
+//                .anyRequest().authenticated()
+//
+//                .and()
+//
+//                // Disable the creation of sessions
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//
+//                .and()
+//                //Configure to use auth2ResourceServer
+//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
 }

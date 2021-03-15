@@ -26,9 +26,6 @@ public class AssociateCardResponse {
     private String titular;
 
 //    @NotNull(message = "{NotNull}")
-    private List<AssociateCardBlockedResponse> bloqueios;
-
-//    @NotNull(message = "{NotNull}")
     private List<AssociateCardWarningResponse> avisos;
 
 //    @NotNull(message = "{NotNull}")
@@ -60,10 +57,6 @@ public class AssociateCardResponse {
 
     public String getTitular() {
         return titular;
-    }
-
-    public List<AssociateCardBlockedResponse> getBloqueios() {
-        return bloqueios;
     }
 
     public List<AssociateCardWarningResponse> getAvisos() {
@@ -102,10 +95,6 @@ public class AssociateCardResponse {
                 this.id,
                 this.emitidoEm,
                 this.titular,
-                this.bloqueios
-                        .stream()
-                        .map(AssociateCardBlockedResponse::toModel)
-                        .collect(Collectors.toList()),
                 this.avisos
                         .stream()
                         .map(AssociateCardWarningResponse::toModel)

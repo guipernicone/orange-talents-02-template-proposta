@@ -40,7 +40,7 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<?> auth(@RequestBody @Valid LoginRequest loginRequest){
         MultiValueMap<String, String> authRequest = new LinkedMultiValueMap<>();
-        if (loginRequest.getRefreshToken().isEmpty()){
+        if (loginRequest.getRefreshToken() == null){
             authRequest.add("grant_type", this.grantType);
             authRequest.add("client_secret", this.clientSecret);
             authRequest.add("username", loginRequest.getUsername());
