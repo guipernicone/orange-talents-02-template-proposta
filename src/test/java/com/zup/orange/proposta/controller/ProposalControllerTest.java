@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -59,6 +60,7 @@ public class ProposalControllerTest {
 
     @Test
     @Transactional
+    @WithMockUser
     public void testCreateProposal() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         this.mockMvc.perform(
@@ -71,6 +73,7 @@ public class ProposalControllerTest {
 
     @Test
     @Transactional
+    @WithMockUser
     public void testCreateProposalInvalidDocument() throws Exception {
         entityManager.persist(proposalRequest.toModel());
 
@@ -86,6 +89,7 @@ public class ProposalControllerTest {
 
     @Test
     @Transactional
+    @WithMockUser
     public void testGetProposal() throws Exception {
         Proposal proposal = this.proposalRequest.toModel();
         entityManager.persist(proposal);
@@ -99,6 +103,7 @@ public class ProposalControllerTest {
 
     @Test
     @Transactional
+    @WithMockUser
     public void testGetProposalWithInvalidId() throws Exception {
         this.mockMvc.perform(
                 MockMvcRequestBuilders

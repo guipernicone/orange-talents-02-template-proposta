@@ -47,6 +47,34 @@ public class AssociateCardResponse {
     @NotBlank(message = "{NotBlank}")
     private String idProposta;
 
+    @Deprecated
+    public AssociateCardResponse() {
+    }
+
+    public AssociateCardResponse(
+            @NotBlank(message = "{NotBlank}") String id,
+            @NotNull(message = "{NotNull}") LocalDateTime emitidoEm,
+            @NotBlank(message = "{NotBlank}") String titular,
+            List<AssociateCardWarningResponse> avisos,
+            List<AssociateCardWalletResponse> carteiras,
+            List<AssociateCardInstallmentResponse> parcelas,
+            @NotNull(message = "{NotNull}") @Positive BigDecimal limite,
+            AssociateCardRenegotiationResponse renegociacao,
+            AssociateCardDueDateResponse vencimento,
+            @NotBlank(message = "{NotBlank}") String idProposta
+    ) {
+        this.id = id;
+        this.emitidoEm = emitidoEm;
+        this.titular = titular;
+        this.avisos = avisos;
+        this.carteiras = carteiras;
+        this.parcelas = parcelas;
+        this.limite = limite;
+        this.renegociacao = renegociacao;
+        this.vencimento = vencimento;
+        this.idProposta = idProposta;
+    }
+
     public String getId() {
         return id;
     }

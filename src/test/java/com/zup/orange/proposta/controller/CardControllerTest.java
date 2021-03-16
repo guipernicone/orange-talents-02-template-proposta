@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -78,6 +79,7 @@ public class CardControllerTest {
 
     @Test
     @Transactional
+    @WithMockUser
     public void testAddBiometry() throws Exception {
         BiometryCreateRequest request = new BiometryCreateRequest("asasa");
         entityManager.persist(cardTest);
@@ -93,6 +95,7 @@ public class CardControllerTest {
 
     @Test
     @Transactional
+    @WithMockUser
     public void testAddBiometryBadRequest() throws Exception {
         BiometryCreateRequest request = new BiometryCreateRequest("");
         entityManager.persist(cardTest);
@@ -108,6 +111,7 @@ public class CardControllerTest {
 
     @Test
     @Transactional
+    @WithMockUser
     public void testAddBiometryNotFound() throws Exception {
         BiometryCreateRequest request = new BiometryCreateRequest("12");
 

@@ -28,7 +28,7 @@ public class GetCreditCardForApprovedProposal {
 
     @Scheduled(fixedDelay = 60000)
     @Transactional
-    private void scheduleTask() {
+    public void scheduleTask() {
         List<Proposal> proposalList = proposalRepository.findByStatusAndCardIsNull(ProposalStatusEnum.ELEGIVEL);
 
         proposalList.forEach(proposal -> {

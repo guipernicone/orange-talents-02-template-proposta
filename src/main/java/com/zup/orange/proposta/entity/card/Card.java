@@ -166,7 +166,6 @@ public class Card {
             return false;
         }
         catch (Exception e){
-            System.out.println(e.getCause());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error happened");
         }
 

@@ -15,6 +15,20 @@ public class AssociateCardDueDateResponse {
 
     private LocalDateTime dataDeCriacao;
 
+    @Deprecated
+    public AssociateCardDueDateResponse() {
+    }
+
+    public AssociateCardDueDateResponse(
+            @NotBlank(message = "{NotBlank}") String id,
+            @Positive int dia,
+            LocalDateTime dataDeCriacao
+    ) {
+        this.id = id;
+        this.dia = dia;
+        this.dataDeCriacao = dataDeCriacao;
+    }
+
     public String getId() {
         return id;
     }
