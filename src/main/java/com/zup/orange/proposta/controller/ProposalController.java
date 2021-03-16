@@ -4,10 +4,12 @@ import com.zup.orange.proposta.client.analyze.AnalyzeClient;
 import com.zup.orange.proposta.client.analyze.request.AnalyzeRequest;
 import com.zup.orange.proposta.client.analyze.response.AnalyzeResponse;
 import com.zup.orange.proposta.entity.proposal.Proposal;
+import com.zup.orange.proposta.entity.proposal.metrics.ProposalMetrics;
 import com.zup.orange.proposta.entity.proposal.request.CreateProposalRequest;
 import com.zup.orange.proposta.entity.proposal.response.ProposalResponse;
 import com.zup.orange.proposta.repository.ProposalRepository;
 import feign.FeignException;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/proposal")
+@Timed
 public class ProposalController {
 
     @Autowired
@@ -28,6 +31,9 @@ public class ProposalController {
 
     @Autowired
     AnalyzeClient analyzeClient;
+
+    @Autowired
+    ProposalMetrics proposalMetrics;
 
     @PostMapping
     @Transactional
@@ -42,6 +48,7 @@ public class ProposalController {
         proposal.updateStatus(analyzeClient);
 
         proposalRepository.save(proposal);
+        proposalMetrics.increment();
 
         URI uri = uriComponentsBuilder.path("/proposal/{id}").buildAndExpand(proposal.getId()).toUri();
         return ResponseEntity.created(uri).build();

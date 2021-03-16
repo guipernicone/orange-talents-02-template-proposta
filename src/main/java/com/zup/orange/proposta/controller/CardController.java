@@ -7,6 +7,7 @@ import com.zup.orange.proposta.entity.card.Blocked;
 import com.zup.orange.proposta.entity.card.Card;
 import com.zup.orange.proposta.entity.card.CardStatusEnum;
 import com.zup.orange.proposta.repository.CardRepository;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/card")
+@Timed
 public class CardController {
 
     @PersistenceContext
@@ -84,5 +86,7 @@ public class CardController {
 
         return ResponseEntity.ok().build();
     }
+
+
 
 }

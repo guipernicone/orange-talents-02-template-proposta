@@ -168,6 +168,8 @@ services:
       KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/proposta
       KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/certs
       AUTH_CLIENT_URL: http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/token
+      NOME_DA_APLICACAO: proposta
+      AMBIENTE: development
 
 volumes:
   grafana-volume:

@@ -5,6 +5,7 @@ import com.zup.orange.proposta.client.auth.AuthClient;
 import com.zup.orange.proposta.client.auth.request.AuthRequest;
 import com.zup.orange.proposta.client.auth.request.LoginRequest;
 import com.zup.orange.proposta.client.auth.response.AuthResponse;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
+@Timed
 public class AuthController {
 
     @Value("${auth.grant_type}")
