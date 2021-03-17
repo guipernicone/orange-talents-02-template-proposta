@@ -6,6 +6,8 @@ import com.zup.orange.proposta.client.account.request.WalletCardRequest;
 import com.zup.orange.proposta.client.account.response.WalletCardResponse;
 import com.zup.orange.proposta.entity.card.enums.WalletEnum;
 import com.zup.orange.proposta.entity.card.enums.WalletStatusEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -81,6 +83,7 @@ public class Wallet {
     }
 
     public boolean associateCardWallet(AccountClient accountClient) {
+        Logger logger = LoggerFactory.getLogger(Wallet.class);
         try{
             WalletCardRequest walletCardRequest = new WalletCardRequest(this.email, this.wallet);
             WalletCardResponse walletCardResponse = accountClient.walletCard(this.card.getCardNumber(), walletCardRequest);
@@ -89,9 +92,12 @@ public class Wallet {
                 return false;
             }
             this.walletId = walletCardResponse.getId();
+            logger.info("Wallet " + this.wallet + " associate with id: " + this.walletId);
             return true;
         }
         catch (Exception e){
+
+            logger.error(e.getCause().toString());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
         }
     }
