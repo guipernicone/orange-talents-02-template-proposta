@@ -1,4 +1,4 @@
-package com.zup.orange.proposta.entity.card;
+package com.zup.orange.proposta.entity.card.enums;
 
 public enum CardStatusEnum {
     BLOQUEADO("BLOQUEADO"),

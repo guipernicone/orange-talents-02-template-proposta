@@ -90,7 +90,6 @@ public class GetCreditCardForApprovedProposalTest {
                 proposal.getName(),
                 new ArrayList<>(),
                 new ArrayList<>(),
-                new ArrayList<>(),
                 new BigDecimal(1),
                 null,
                 dueDate,

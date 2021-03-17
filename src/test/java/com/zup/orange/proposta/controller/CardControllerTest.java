@@ -68,7 +68,6 @@ public class CardControllerTest {
                 proposal.getName(),
                 null,
                 null,
-                null,
                 new BigDecimal(1),
                 null,
                 null,

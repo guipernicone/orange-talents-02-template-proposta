@@ -2,9 +2,9 @@ package com.zup.orange.proposta.entity.card;
 
 import com.zup.orange.proposta.client.account.AccountClient;
 import com.zup.orange.proposta.client.account.response.CardBlockResponse;
+import com.zup.orange.proposta.entity.card.enums.CardStatusEnum;
 import com.zup.orange.proposta.entity.proposal.Address;
 import com.zup.orange.proposta.entity.proposal.Proposal;
-import feign.Feign;
 import feign.FeignException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -53,7 +52,6 @@ public class CardTest {
                 "123",
                 LocalDateTime.now(),
                 proposal.getName(),
-                null,
                 null,
                 null,
                 new BigDecimal(1),

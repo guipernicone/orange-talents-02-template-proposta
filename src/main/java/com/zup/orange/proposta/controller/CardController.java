@@ -1,18 +1,27 @@
 package com.zup.orange.proposta.controller;
 
 import com.zup.orange.proposta.client.account.AccountClient;
+import com.zup.orange.proposta.client.account.request.WarnCardRequest;
+import com.zup.orange.proposta.client.account.response.CardBlockResponse;
+import com.zup.orange.proposta.client.account.response.WarnCardResponse;
 import com.zup.orange.proposta.entity.biometry.Biometry;
 import com.zup.orange.proposta.entity.biometry.request.BiometryCreateRequest;
 import com.zup.orange.proposta.entity.card.Blocked;
 import com.zup.orange.proposta.entity.card.Card;
-import com.zup.orange.proposta.entity.card.CardStatusEnum;
+import com.zup.orange.proposta.entity.card.Warning;
+import com.zup.orange.proposta.entity.card.enums.CardStatusEnum;
+import com.zup.orange.proposta.entity.card.enums.WarnStatusEnum;
+import com.zup.orange.proposta.entity.card.request.TravelNoticeRequest;
 import com.zup.orange.proposta.repository.CardRepository;
+import feign.FeignException;
 import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
@@ -87,6 +96,37 @@ public class CardController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{card_number}/warning")
+    @Transactional
+    public ResponseEntity<?> travelNotice(
+            @PathVariable(value = "card_number") String cardNumber,
+            @RequestBody @Valid TravelNoticeRequest travelRequest,
+            @RequestHeader(HttpHeaders.USER_AGENT) String userAgent,
+            HttpServletRequest request
+    ){
 
+        Optional<Card> cardOptional = cardRepository.findByCardNumber(cardNumber);
+
+        if (cardOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Card card = cardOptional.get();
+        Warning warning = travelRequest.toModel(card, request.getRemoteAddr(), userAgent);
+        WarnCardRequest warnCardRequest = new WarnCardRequest(warning.getDestination(), warning.getEndDate());
+
+        try{
+            WarnCardResponse response = accountClient.warnCard(card.getCardNumber(),warnCardRequest);
+            if (response.getResult() == WarnStatusEnum.FALHA){
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
+        }
+
+        entityManager.persist(warning);
+        return ResponseEntity.ok().build();
+    }
 
 }

@@ -1,10 +1,10 @@
 package com.zup.orange.proposta.entity.card;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zup.orange.proposta.client.account.AccountClient;
 import com.zup.orange.proposta.client.account.request.CardBlockRequest;
 import com.zup.orange.proposta.client.account.response.CardBlockResponse;
 import com.zup.orange.proposta.entity.biometry.Biometry;
+import com.zup.orange.proposta.entity.card.enums.CardStatusEnum;
 import com.zup.orange.proposta.entity.proposal.Proposal;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -75,7 +74,6 @@ public class Card {
             String cardNumber,
             LocalDateTime issuedIn,
             String holder,
-            List<Warning> warnings,
             List<Wallet> wallets,
             List<Installment> installments,
             BigDecimal limit,
@@ -86,7 +84,6 @@ public class Card {
         this.cardNumber = cardNumber;
         this.issuedIn = issuedIn;
         this.holder = holder;
-        this.warnings = warnings;
         this.wallets = wallets;
         this.installments = installments;
         this.limitValue = limit;

@@ -1,7 +1,7 @@
 package com.zup.orange.proposta.client.account.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.zup.orange.proposta.entity.card.CardStatusEnum;
+import com.zup.orange.proposta.entity.card.enums.CardStatusEnum;
 
 public class CardBlockResponse {
 

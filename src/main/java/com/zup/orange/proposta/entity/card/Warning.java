@@ -1,6 +1,6 @@
 package com.zup.orange.proposta.entity.card;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,13 +11,26 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "warning")
 public class Warning {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @NotNull(message = "{NotNull}")
-    private LocalDate validUntil;
+    private LocalDate endDate;
+
     @NotBlank(message = "{NotBlank}")
-    private String target;
+    private String destination;
+
+    @NotBlank(message = "{NotBlank}")
+    private String clientIP;
+
+    @NotBlank(message = "{NotBlank}")
+    private String responsibleSystem;
+
+    @NotNull(message = "{NotNull}")
+    private LocalDateTime creationTime;
+
     @ManyToOne
     private Card card;
 
@@ -26,23 +39,42 @@ public class Warning {
     }
 
     public Warning(
-            @NotNull(message = "{NotNull}") LocalDate validUntil,
-            @NotBlank(message = "{NotBlank}") String target
+            @NotNull(message = "{NotNull}") LocalDate endDate,
+            @NotBlank(message = "{NotBlank}") String destination,
+            @NotBlank(message = "{NotBlank}") String clientIP,
+            @NotBlank(message = "{NotBlank}") String system,
+            Card card
     ) {
-        this.validUntil = validUntil;
-        this.target = target;
+        this.endDate = endDate;
+        this.destination = destination;
+        this.clientIP = clientIP;
+        this.creationTime = LocalDateTime.now();
+        this.responsibleSystem = system;
+        this.card = card;
     }
 
     public long getId() {
         return id;
     }
 
-    public LocalDate getValidUntil() {
-        return validUntil;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public String getTarget() {
-        return target;
+    public String getDestination() {
+        return destination;
+    }
+
+    public String getClientIP() {
+        return clientIP;
+    }
+
+    public LocalDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public String getResponsibleSystem() {
+        return responsibleSystem;
     }
 
     public Card getCard() {
