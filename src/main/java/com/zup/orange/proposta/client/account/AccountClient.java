@@ -2,9 +2,11 @@ package com.zup.orange.proposta.client.account;
 
 import com.zup.orange.proposta.client.account.request.AssociateCardRequest;
 import com.zup.orange.proposta.client.account.request.CardBlockRequest;
+import com.zup.orange.proposta.client.account.request.WalletCardRequest;
 import com.zup.orange.proposta.client.account.request.WarnCardRequest;
 import com.zup.orange.proposta.client.account.response.AssociateCardResponse;
 import com.zup.orange.proposta.client.account.response.CardBlockResponse;
+import com.zup.orange.proposta.client.account.response.WalletCardResponse;
 import com.zup.orange.proposta.client.account.response.WarnCardResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,4 +26,7 @@ public interface AccountClient {
 
     @PostMapping("/api/cartoes/{id}/avisos")
     WarnCardResponse warnCard(@PathVariable String id, WarnCardRequest warnCardRequest);
+
+    @PostMapping("/api/cartoes/{id}/carteiras")
+    WalletCardResponse walletCard(@PathVariable String id, WalletCardRequest warnCardRequest);
 }

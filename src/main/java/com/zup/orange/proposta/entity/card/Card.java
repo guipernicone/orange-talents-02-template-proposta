@@ -5,6 +5,7 @@ import com.zup.orange.proposta.client.account.request.CardBlockRequest;
 import com.zup.orange.proposta.client.account.response.CardBlockResponse;
 import com.zup.orange.proposta.entity.biometry.Biometry;
 import com.zup.orange.proposta.entity.card.enums.CardStatusEnum;
+import com.zup.orange.proposta.entity.card.enums.WalletEnum;
 import com.zup.orange.proposta.entity.proposal.Proposal;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "card")
@@ -74,7 +76,6 @@ public class Card {
             String cardNumber,
             LocalDateTime issuedIn,
             String holder,
-            List<Wallet> wallets,
             List<Installment> installments,
             BigDecimal limit,
             Renegotiation renegotiations,
@@ -84,7 +85,6 @@ public class Card {
         this.cardNumber = cardNumber;
         this.issuedIn = issuedIn;
         this.holder = holder;
-        this.wallets = wallets;
         this.installments = installments;
         this.limitValue = limit;
         this.renegotiations = renegotiations;
@@ -166,5 +166,9 @@ public class Card {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error happened");
         }
 
+    }
+
+    public Optional<Wallet> getWallet(WalletEnum wallet){
+        return this.wallets.stream().filter(walletItem -> walletItem.getWallet() == wallet).findFirst();
     }
 }

@@ -89,7 +89,6 @@ public class GetCreditCardForApprovedProposalTest {
                 LocalDateTime.now(),
                 proposal.getName(),
                 new ArrayList<>(),
-                new ArrayList<>(),
                 new BigDecimal(1),
                 null,
                 dueDate,

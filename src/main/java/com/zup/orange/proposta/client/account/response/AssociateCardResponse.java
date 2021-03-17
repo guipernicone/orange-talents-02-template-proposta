@@ -26,9 +26,6 @@ public class AssociateCardResponse {
     private String titular;
 
 //    @NotNull(message = "{NotNull}")
-    private List<AssociateCardWalletResponse> carteiras;
-
-//    @NotNull(message = "{NotNull}")
     private List<AssociateCardInstallmentResponse>  parcelas;
 
     @NotNull(message = "{NotNull}")
@@ -52,7 +49,6 @@ public class AssociateCardResponse {
             @NotBlank(message = "{NotBlank}") String id,
             @NotNull(message = "{NotNull}") LocalDateTime emitidoEm,
             @NotBlank(message = "{NotBlank}") String titular,
-            List<AssociateCardWalletResponse> carteiras,
             List<AssociateCardInstallmentResponse> parcelas,
             @NotNull(message = "{NotNull}") @Positive BigDecimal limite,
             AssociateCardRenegotiationResponse renegociacao,
@@ -62,7 +58,6 @@ public class AssociateCardResponse {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
-        this.carteiras = carteiras;
         this.parcelas = parcelas;
         this.limite = limite;
         this.renegociacao = renegociacao;
@@ -80,10 +75,6 @@ public class AssociateCardResponse {
 
     public String getTitular() {
         return titular;
-    }
-
-    public List<AssociateCardWalletResponse> getCarteiras() {
-        return carteiras;
     }
 
     public List<AssociateCardInstallmentResponse> getParcelas() {
@@ -114,10 +105,6 @@ public class AssociateCardResponse {
                 this.id,
                 this.emitidoEm,
                 this.titular,
-                this.carteiras
-                        .stream()
-                        .map(AssociateCardWalletResponse::toModel)
-                        .collect(Collectors.toList()),
                 this.parcelas
                         .stream()
                         .map(AssociateCardInstallmentResponse::toModel)

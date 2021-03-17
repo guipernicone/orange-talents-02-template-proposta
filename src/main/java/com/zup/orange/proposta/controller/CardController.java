@@ -8,10 +8,12 @@ import com.zup.orange.proposta.entity.biometry.Biometry;
 import com.zup.orange.proposta.entity.biometry.request.BiometryCreateRequest;
 import com.zup.orange.proposta.entity.card.Blocked;
 import com.zup.orange.proposta.entity.card.Card;
+import com.zup.orange.proposta.entity.card.Wallet;
 import com.zup.orange.proposta.entity.card.Warning;
 import com.zup.orange.proposta.entity.card.enums.CardStatusEnum;
 import com.zup.orange.proposta.entity.card.enums.WarnStatusEnum;
 import com.zup.orange.proposta.entity.card.request.TravelNoticeRequest;
+import com.zup.orange.proposta.entity.card.request.WalletCardRequest;
 import com.zup.orange.proposta.repository.CardRepository;
 import feign.FeignException;
 import io.micrometer.core.annotation.Timed;
@@ -127,6 +129,39 @@ public class CardController {
 
         entityManager.persist(warning);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{card_number}/wallet")
+    @Transactional
+    public ResponseEntity<?> associateCardWallet(
+            @PathVariable(value = "card_number") String cardNumber,
+            @RequestBody @Valid WalletCardRequest walletCardRequest,
+            @RequestHeader(HttpHeaders.USER_AGENT) String userAgent,
+            UriComponentsBuilder uriComponentsBuilder
+    ){
+        Optional<Card> cardOptional = cardRepository.findByCardNumber(cardNumber);
+        if (cardOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Card card = cardOptional.get();
+        Wallet wallet = walletCardRequest.toModel(userAgent, card);
+        if (!card.getProposal().getEmail().equals(wallet.getEmail())){
+            return ResponseEntity.badRequest().body("Invalid email");
+        }
+
+        Optional<Wallet> cardWallet = card.getWallet(wallet.getWallet());
+        if(cardWallet.isPresent()){
+            return ResponseEntity.status(422).body("Wallet already associated");
+        }
+
+        if (!wallet.associateCardWallet(accountClient)){
+            return ResponseEntity.badRequest().build();
+        }
+
+        entityManager.persist(wallet);
+        URI uri = uriComponentsBuilder.path("/wallet/{id}").buildAndExpand(wallet.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
 }
