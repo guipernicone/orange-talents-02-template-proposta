@@ -6,6 +6,10 @@ import com.zup.orange.proposta.client.analyze.response.AnalyzeResponse;
 import com.zup.orange.proposta.entity.card.Card;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.codec.Hex;
+import org.springframework.security.crypto.encrypt.BytesEncryptor;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -15,6 +19,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 
 @Entity
 @Table(name = "proposal")
@@ -55,7 +60,8 @@ public class Proposal {
     ) {
         this.name = name;
         this.email = email;
-        this.document = document;
+        TextEncryptor encryptors = Encryptors.text("proposal", new String(Hex.encode((this.email + this.name).getBytes(StandardCharsets.UTF_8))));
+        this.document = encryptors.encrypt(document);
         this.salary = salary;
         this.address = address;
     }
@@ -73,7 +79,8 @@ public class Proposal {
     }
 
     public String getDocument() {
-        return document;
+        TextEncryptor encryptors = Encryptors.text("proposal", new String(Hex.encode((this.email + this.name).getBytes(StandardCharsets.UTF_8))));
+        return encryptors.decrypt(this.document);
     }
 
     public BigDecimal getSalary() {
