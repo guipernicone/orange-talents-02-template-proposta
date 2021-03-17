@@ -106,7 +106,7 @@ public class CardController {
     ){
 
         Optional<Card> cardOptional = cardRepository.findByCardNumber(cardNumber);
-
+        System.out.println(cardOptional.isEmpty());
         if (cardOptional.isEmpty()){
             return ResponseEntity.notFound().build();
         }
@@ -122,7 +122,7 @@ public class CardController {
             }
         }
         catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
         }
 
         entityManager.persist(warning);

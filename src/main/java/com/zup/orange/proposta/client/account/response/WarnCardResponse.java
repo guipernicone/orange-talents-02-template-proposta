@@ -8,6 +8,14 @@ public class WarnCardResponse {
     @JsonProperty("resultado")
     private WarnStatusEnum result;
 
+    @Deprecated
+    public WarnCardResponse() {
+    }
+
+    public WarnCardResponse(WarnStatusEnum result) {
+        this.result = result;
+    }
+
     public WarnStatusEnum getResult(){
         return result;
     }
