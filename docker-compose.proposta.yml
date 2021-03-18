@@ -157,19 +157,24 @@ services:
       - mysql
       - analise
       - contas
+      - keycloak
+      - jaeger
+      - prometheus
     ports:
-      - 8090:8080
+      - 8090:8090
     environment:
+      PORT: 8090
       DB_URL: mysql
       DB_USERNAME: root
       DB_PASSWORD: root
-      ANALISE_SERVICE: http://analise
-      ACCOUNT_SERVICE: http://contas
+      ANALISE_SERVICE: analise
+      ACCOUNT_SERVICE: contas
       KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/proposta
       KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/certs
       AUTH_CLIENT_URL: http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/token
-      NOME_DA_APLICACAO: proposta
-      AMBIENTE: development
+      METRICS_NOME_DA_APLICACAO: proposta
+      METRICS_AMBIENTE: development
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
 
 volumes:
   grafana-volume:
